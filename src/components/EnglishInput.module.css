@@ -1,0 +1,147 @@
+/* 화면에는 숨기고 스크린리더에만 노출되는 라벨 */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 입력창을 터미널 프롬프트처럼 감싼다. */
+.terminal {
+  position: relative;
+  border: 1px solid var(--c-line);
+  background: var(--c-sunken);
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.terminal:focus-within {
+  border-color: var(--c-line-hot);
+  box-shadow: inset 0 0 24px rgba(61, 214, 140, 0.07), var(--glow-sm);
+}
+
+/* 상단 타이틀 바 (□ □ □) */
+.terminalBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--c-line);
+  background: rgba(61, 214, 140, 0.06);
+  font-size: 0.64rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-dim);
+}
+
+.terminalDots {
+  letter-spacing: 0.24em;
+  color: var(--c-faint);
+}
+
+/* 프롬프트 기호와 입력창을 같은 첫 줄에 나란히 놓는다.
+   (절대 위치로 맞추면 폰트/줌에 따라 어긋나므로 flex로 정렬한다) */
+.terminalBody {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: var(--space-3);
+}
+
+.prompt {
+  flex-shrink: 0;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--c-green);
+  pointer-events: none;
+  user-select: none;
+  text-shadow: var(--glow-sm);
+}
+
+.textarea {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  min-height: 176px;
+  padding: 0;
+  resize: vertical;
+  border: none;
+  background: transparent;
+  color: var(--c-bright);
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: var(--glow-sm);
+}
+
+.textarea::placeholder {
+  color: var(--c-faint);
+  text-shadow: none;
+}
+
+.textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+/* 지원하지 않는 문자 안내 */
+.warning {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--c-red);
+  text-transform: none;
+}
+
+.warning::before {
+  content: '!';
+  padding: 0 5px;
+  border: 1px solid var(--c-red-dim);
+  font-weight: 700;
+}
+
+.warningChars {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.count {
+  letter-spacing: 0.1em;
+}
+
+.examples {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--c-line);
+}
+
+.examplesLabel {
+  margin-right: var(--space-1);
+  font-size: 0.64rem;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+.examplesLabel::before {
+  content: '> ';
+}

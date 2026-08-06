@@ -1,0 +1,36 @@
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 200; /* 스캔라인 오버레이(90) 위 */
+  padding: 8px 16px;
+  border: 1px solid var(--c-line-hot);
+  background: var(--c-bg-deep);
+  box-shadow: var(--glow-md);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-bright);
+  white-space: nowrap;
+  animation: slideUp 0.16s steps(3, end);
+  pointer-events: none;
+}
+
+/* 터미널 로그 라인처럼 프롬프트를 붙인다 */
+.toast::before {
+  content: '> ';
+  color: var(--c-dim);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

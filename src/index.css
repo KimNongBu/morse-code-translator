@@ -1,0 +1,176 @@
+/* ==========================================================================
+   전역 스타일 · 디자인 토큰
+   컨셉: 포스포 그린 CRT 터미널 (픽셀 / 모노스페이스 / 스캔라인)
+   컴포넌트별 스타일은 각각의 *.module.css 에서 관리한다.
+   ========================================================================== */
+
+:root {
+  /* --- 배경 --- */
+  --c-bg: #050806;
+  --c-bg-deep: #030503;
+  --c-panel: rgba(9, 22, 14, 0.55);
+  --c-panel-solid: #071009;
+  --c-sunken: rgba(2, 6, 3, 0.72);
+
+  /* --- 포스포 그린 계열 --- */
+  --c-faint: #1e4a33;
+  --c-dim: #2f7a52;
+  --c-mid: #3dd68c;
+  --c-green: #4ade80;
+  --c-bright: #7dffb4;
+  --c-white: #d9f7e6;
+
+  /* --- 라인 --- */
+  --c-line: rgba(61, 214, 140, 0.22);
+  --c-line-strong: rgba(61, 214, 140, 0.55);
+  --c-line-hot: rgba(125, 255, 180, 0.85);
+
+  /* --- 경고 / 위험 (레퍼런스의 붉은 프레임) --- */
+  --c-red: #ff5f56;
+  --c-red-dim: rgba(255, 95, 86, 0.55);
+
+  /* --- 글로우 --- */
+  --glow-sm: 0 0 6px rgba(61, 214, 140, 0.45);
+  --glow-md: 0 0 14px rgba(61, 214, 140, 0.55);
+  --glow-lg: 0 0 26px rgba(61, 214, 140, 0.6);
+
+  /* --- 간격 --- */
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 16px;
+  --space-4: 22px;
+  --space-5: 30px;
+  --space-6: 44px;
+
+  /* --- 타이포그래피 --- */
+  /* 터미널 UI는 전부 모노스페이스. 한글은 자동으로 폴백된다. */
+  --font-mono: 'Cascadia Mono', 'Consolas', 'D2Coding', ui-monospace, 'Courier New', monospace,
+    'Malgun Gothic';
+  /* 한글 제목처럼 굵게 눌러써야 하는 곳에만 사용 */
+  --font-sans: 'Pretendard', 'Malgun Gothic', 'Segoe UI', system-ui, sans-serif;
+
+  --track: 0.14em;
+  --track-wide: 0.28em;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--c-bg);
+  /* 화면 가장자리를 어둡게 눌러 CRT 비네팅을 흉내낸다. */
+  background-image:
+    radial-gradient(1100px 700px at 50% -10%, rgba(61, 214, 140, 0.07), transparent 65%),
+    radial-gradient(900px 900px at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  background-attachment: fixed;
+  color: var(--c-mid);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 전면 스캔라인 오버레이 — 모든 UI 위에 얇게 깔린다. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.22) 3px,
+    rgba(0, 0, 0, 0.22) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  letter-spacing: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+textarea,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+/* 픽셀 UI에는 둥근 모서리를 쓰지 않는다. */
+:focus-visible {
+  outline: 1px solid var(--c-bright);
+  outline-offset: 2px;
+  box-shadow: var(--glow-sm);
+}
+
+::selection {
+  background: var(--c-green);
+  color: var(--c-bg-deep);
+}
+
+/* 스크롤바도 터미널 톤에 맞춘다. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--c-bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--c-faint);
+  border: 2px solid var(--c-bg-deep);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

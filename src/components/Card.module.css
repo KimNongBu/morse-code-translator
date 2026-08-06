@@ -1,0 +1,113 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--c-panel);
+  border: 1px solid var(--c-line);
+  border-radius: 0; /* 픽셀 UI: 둥근 모서리 없음 */
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--c-line-strong);
+  box-shadow: inset 0 0 40px rgba(61, 214, 140, 0.05);
+}
+
+/* 네 모서리의 브래킷 틱. 추가 DOM 없이 배경 그라디언트로 그린다. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  --tick: var(--c-line-hot);
+  background-image:
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick));
+  background-repeat: no-repeat;
+  background-size: 9px 1px, 1px 9px, 9px 1px, 1px 9px, 9px 1px, 1px 9px, 9px 1px, 1px 9px;
+  background-position:
+    left top, left top,
+    right top, right top,
+    left bottom, left bottom,
+    right bottom, right bottom;
+  opacity: 0.75;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px dashed var(--c-line);
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--c-green);
+  text-shadow: var(--glow-sm);
+}
+
+/* 제목 앞의 ■ 마커 + 모스 장식 */
+.title::before {
+  content: '■';
+  font-size: 0.62rem;
+  line-height: 1;
+  color: var(--c-green);
+}
+
+.badge {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--c-faint);
+}
+
+.badge::before {
+  content: '· ';
+  color: var(--c-faint);
+}
+
+.subtitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--c-dim);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: var(--space-3);
+  }
+}

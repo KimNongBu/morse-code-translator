@@ -1,0 +1,246 @@
+.app {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ===== 상단 상태 바 ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--c-line);
+  font-size: 0.7rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-green);
+}
+
+.topbarLeft::before {
+  content: '> ';
+  color: var(--c-dim);
+}
+
+/* 깜빡이는 블록 커서 */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.85em;
+  margin-left: 0.4em;
+  vertical-align: -0.08em;
+  background: var(--c-green);
+  box-shadow: var(--glow-sm);
+  animation: blink 1.05s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.topbarRight {
+  color: var(--c-faint);
+}
+
+/* ===== 헤더 ===== */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) 0 var(--space-3);
+  text-align: center;
+}
+
+.bootLine {
+  font-size: 0.68rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-dim);
+}
+
+.bootLine::before {
+  content: '> ';
+  color: var(--c-faint);
+}
+
+.shellLine {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--c-faint);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 5.4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  /* 글자에 가로 주사선을 새겨 비트맵 타이틀처럼 보이게 한다 */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--c-bright) 0 3px,
+    rgba(61, 214, 140, 0.45) 3px 5px
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(61, 214, 140, 0.5));
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1.15rem, 3.4vw, 1.7rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--c-white);
+}
+
+.tagline {
+  max-width: 44ch;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--c-dim);
+}
+
+/* 스펙 스트립 — 레퍼런스의 컬러 칩 줄과 같은 역할 */
+.specStrip {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: var(--space-2);
+  border: 1px solid var(--c-line);
+}
+
+.spec {
+  flex: 1 1 0;
+  min-width: 96px;
+  padding: 5px 8px;
+  border-right: 1px solid var(--c-line);
+  font-size: 0.64rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-faint);
+  white-space: nowrap;
+}
+
+.spec:last-child {
+  border-right: none;
+}
+
+.specValue {
+  color: var(--c-green);
+}
+
+/* ===== 섹션 ===== */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--c-green);
+  text-shadow: var(--glow-sm);
+}
+
+.sectionHead::before {
+  content: '■';
+  font-size: 0.58rem;
+}
+
+/* 제목 옆으로 이어지는 점선 */
+.rule {
+  flex: 1;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--c-line-strong) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.sectionMeta {
+  font-size: 0.64rem;
+  font-weight: 400;
+  letter-spacing: var(--track);
+  color: var(--c-faint);
+  text-shadow: none;
+}
+
+/* 데스크톱: 좌우 2열 / 모바일: 세로 1열 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+/* ===== 푸터 ===== */
+.footer {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--c-line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footerMorse {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: var(--c-faint);
+  text-align: center;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 0.66rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-dim);
+}
+
+.footerRight {
+  color: var(--c-faint);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: var(--space-2) var(--space-3) var(--space-4);
+  }
+
+  .spec {
+    flex-basis: 50%;
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .footerRow {
+    flex-direction: column;
+    gap: var(--space-1);
+    text-align: center;
+  }
+}

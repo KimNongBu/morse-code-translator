@@ -1,0 +1,141 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--c-line);
+  background: var(--c-panel);
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+/* --- 볼륨 --- */
+.volume {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-left: var(--space-2);
+  border-left: 1px solid var(--c-line);
+}
+
+.slider {
+  width: 88px;
+  height: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 트랙을 세그먼트 블록으로 그린다 (게이지와 같은 언어) */
+.slider::-webkit-slider-runnable-track {
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(61, 214, 140, 0.3) 0 5px,
+    transparent 5px 8px
+  );
+}
+
+.slider::-moz-range-track {
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(61, 214, 140, 0.3) 0 5px,
+    transparent 5px 8px
+  );
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 5px;
+  height: 10px;
+  border: none;
+  border-radius: 0;
+  background: var(--c-bright);
+  box-shadow: var(--glow-sm);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 5px;
+  height: 10px;
+  border: none;
+  border-radius: 0;
+  background: var(--c-bright);
+  box-shadow: var(--glow-sm);
+  cursor: pointer;
+}
+
+/* --- 자동 재생 토글 --- */
+.toggle {
+  position: relative; /* 숨긴 체크박스의 기준점 */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 6px 10px;
+  border: 1px solid var(--c-line);
+  font-size: 0.68rem;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--c-dim);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.14s var(--ease-out), border-color 0.14s var(--ease-out);
+}
+
+.toggle:hover {
+  color: var(--c-bright);
+  border-color: var(--c-line-strong);
+}
+
+/* 체크박스를 숨겼으므로 포커스 링을 라벨이 대신 표시한다. */
+.toggle:focus-within {
+  outline: 1px solid var(--c-bright);
+  outline-offset: 2px;
+  box-shadow: var(--glow-sm);
+}
+
+.toggleOn {
+  color: var(--c-bright);
+  border-color: var(--c-line-hot);
+  background: rgba(61, 214, 140, 0.1);
+  text-shadow: var(--glow-sm);
+}
+
+/* 실제 체크박스는 숨기고 [x] / [ ] 텍스트로 표현한다 */
+.checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkMark {
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .group {
+    justify-content: center;
+  }
+
+  .volume {
+    border-left: none;
+    padding-left: 0;
+  }
+}

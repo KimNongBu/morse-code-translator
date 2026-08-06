@@ -1,0 +1,237 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* 키 패널 상단의 상태 스트립 */
+.strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 5px 10px;
+  border: 1px solid var(--c-line);
+  border-bottom: none;
+  background: rgba(61, 214, 140, 0.06);
+  font-size: 0.64rem;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--c-dim);
+}
+
+.stripState {
+  color: var(--c-faint);
+}
+
+.stripStateOn {
+  color: var(--c-bright);
+  text-shadow: var(--glow-sm);
+  animation: blink 0.5s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.key {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border: 1px solid var(--c-line-strong);
+  border-radius: 0;
+  background: var(--c-sunken);
+  /* 픽셀 그리드 텍스처 */
+  background-image:
+    linear-gradient(rgba(61, 214, 140, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 214, 140, 0.05) 1px, transparent 1px);
+  background-size: 12px 12px;
+  overflow: hidden;
+
+  /* 터치 시 스크롤 / 확대 / 선택 / 롱프레스 메뉴를 막는다 */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background-color 0.08s linear,
+    border-color 0.12s var(--ease-out),
+    box-shadow 0.12s var(--ease-out);
+}
+
+.key:hover:not(:disabled) {
+  border-color: var(--c-line-hot);
+  box-shadow: inset 0 0 40px rgba(61, 214, 140, 0.1), var(--glow-md);
+}
+
+/* 눌린 상태: 화면 전체가 반전되는 CRT 플래시 */
+.pressed,
+.key:active:not(:disabled) {
+  background-color: var(--c-green);
+  border-color: var(--c-bright);
+  box-shadow: var(--glow-lg), inset 0 0 60px rgba(255, 255, 255, 0.25);
+}
+
+/* 눌렀을 때 위에 덮이는 스캔라인 (반전 상태에서 더 잘 보인다) */
+.pressed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.28) 0 2px,
+    transparent 2px 5px
+  );
+}
+
+.label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--c-green);
+  text-shadow: var(--glow-sm);
+  transition: opacity 0.1s linear;
+}
+
+.label::before {
+  content: '> ';
+  color: var(--c-dim);
+}
+
+.hint {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+/* 누르고 있는 동안 현재 판정될 기호를 크게 보여준다 */
+.liveSymbol {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--c-bg-deep);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.08s linear;
+}
+
+.pressed .liveSymbol {
+  opacity: 1;
+}
+
+.pressed .label,
+.pressed .hint {
+  opacity: 0;
+}
+
+/* --- 누르는 시간 게이지 (세그먼트 블록) --- */
+/* 게이지는 키가 눌린(= 배경이 밝은 초록) 상태에서만 보이므로
+   슬롯과 블록을 모두 어두운 색으로 그려야 대비가 확보된다. */
+.gauge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10px;
+  border-top: 1px solid rgba(5, 8, 6, 0.45);
+  /* 비어 있는 슬롯 */
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(5, 8, 6, 0.16) 0 7px,
+    transparent 7px 10px
+  );
+  background-position: 1px 0;
+}
+
+.gaugeFill {
+  height: 100%;
+  width: 0%;
+  /* 채워진 블록 — 슬롯과 같은 주기로 겹쳐 그린다 (점 구간: 반투명) */
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(5, 8, 6, 0.5) 0 7px,
+    transparent 7px 10px
+  );
+  background-position: 1px 0;
+}
+
+/* 임계값(200ms)을 넘으면 블록이 꽉 찬 검정으로 바뀐다 */
+.gaugeFill[data-symbol='dash'] {
+  background-image: repeating-linear-gradient(90deg, var(--c-bg-deep) 0 7px, transparent 7px 10px);
+}
+
+/* 200ms 지점 눈금 */
+.gaugeMark {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  height: 10px;
+  background: var(--c-bg-deep);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: 7px 10px;
+  border: 1px solid var(--c-line);
+  border-top: none;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 6px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--c-mid);
+  background: transparent;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 0;
+}
+
+@media (max-width: 640px) {
+  .key {
+    height: 140px;
+  }
+
+  .liveSymbol {
+    font-size: 3.5rem;
+  }
+
+  .legend {
+    gap: var(--space-2);
+  }
+}
