@@ -50,6 +50,34 @@ git push -u origin main
 
 ---
 
+## 빌드 도구 버전 고정
+
+빌드 환경이 제멋대로 최신 도구를 고르지 않도록 저장소에 버전을 못박아 두었습니다.
+
+| 파일 | 값 | 이유 |
+| --- | --- | --- |
+| `.nvmrc` | `24.16.0` | 로컬과 동일한 Node. Vite 8은 `^20.19.0 \|\| >=22.12.0` 요구 |
+| `package.json` → `packageManager` | `yarn@1.22.22` | **이게 없으면 Cloudflare가 Yarn 4를 골라서 실패합니다** |
+
+`packageManager`가 없으면 빌드 로그에 이런 오류가 납니다.
+
+```
+Detected the following tools from environment: yarn@4.9.1
+➤ YN0087: Migrated your project to the latest Yarn version 🚀
+➤ YN0028: The lockfile would have been modified by this install, which is explicitly forbidden.
+```
+
+`yarn.lock`이 Yarn 1 형식인데 Yarn 4가 자기 형식으로 변환하려 하고,
+CI에서는 락파일 수정이 금지되어 있어 거부되는 것입니다.
+
+그래도 Yarn 4가 잡히면 대시보드 환경변수에 `YARN_VERSION = 1.22.22` 를 추가하세요.
+
+## 재배포 시 주의
+
+**`Retry deployment`는 최신 커밋을 가져오지 않습니다.** 실패했던 그 커밋을 그대로 다시 실행합니다.
+코드를 고쳐서 push했다면 Retry가 아니라 **새 push로 생성된 배포**를 확인해야 합니다.
+(Deployments 목록에서 커밋 해시를 꼭 확인하세요)
+
 ## 빌드가 실패하면
 
 ### `tsc: not found` / `vite: not found`
